@@ -5,17 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhoneBook.Repositories
+namespace PhoneBook.Services.EntityServices
 {
-    public class ContactsRepository: BaseRepository<Contact>
+    public class ContactsService:BaseService<Contact>
     {
-        public ContactsRepository() : base()
+        public ContactsService():base()
         {
-
+           
         }
+
         public IEnumerable<Contact> GetAllByUserID(int id)
         {
-            return conn.Table<Contact>().ToList().Where(c => c.UserID == id);
+            return repo.GetAll().Where(c => c.UserID == id);
         }
     }
 }

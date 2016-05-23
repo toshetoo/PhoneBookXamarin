@@ -29,6 +29,6 @@ namespace PhoneBook.Droid
             var conn = new SQLite.SQLiteConnection(path);
             // Return the database connection
             return conn;
-        }
+        }       
     }
 }

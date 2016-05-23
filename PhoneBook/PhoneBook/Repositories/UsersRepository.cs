@@ -14,7 +14,7 @@ namespace PhoneBook.Repositories
         {
             
         }
-        internal User GetByUsernameAndPassword(string username, string password)
+        public User GetByUsernameAndPassword(string username, string password)
         {
            return conn.Table<User>().ToList().FirstOrDefault(u => u.Username == username && u.Password == password);
         }

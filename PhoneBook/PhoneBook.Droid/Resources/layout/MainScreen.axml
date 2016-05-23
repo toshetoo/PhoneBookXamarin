@@ -4,12 +4,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/linearLayout1">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="74.5dp"
+        android:id="@+id/linearLayout3">
+        <ImageView
+            android:src="@android:drawable/ic_menu_gallery"
+            android:layout_width="107.5dp"
+            android:layout_height="78.0dp"
+            android:id="@+id/userImage" />
+        <TextView
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/textViewUser"
+            android:layout_marginTop="25.0dp"
+            android:layout_marginLeft="4.5dp" />
+        <Button
+            android:layout_width="40.0dp"
+            android:layout_height="38.0dp"
+            android:id="@+id/btnEditUser"
+            android:layout_marginLeft="69.5dp"
+            android:background="@drawable/edit"
+            android:layout_marginTop="14.5dp" />
+    </LinearLayout>
     <TextView
-        android:text="Small Text"
-        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="mail"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewUser" />
+        android:id="@+id/textViewEmail" />
+    <TextView
+        android:text="Contacts"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="135.0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView1"
+        android:layout_marginLeft="149.0dp" />
+    <ListView
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="387.5dp"
+        android:id="@+id/listViewContacts" />
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -28,12 +67,6 @@
             android:layout_height="match_parent"
             android:enabled="false" />
     </LinearLayout>
-    <ListView
-        android:minWidth="25px"
-        android:minHeight="25px"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/listViewContacts" />
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"

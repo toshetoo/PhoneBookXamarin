@@ -1,5 +1,6 @@
 ﻿using PhoneBook.Entities;
 using PhoneBook.Repositories;
+using PhoneBook.Services.EntityServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace PhoneBook.Services
 
         public static void AuthenticateUser(string username, string password)
         {
-            LoggedUser = new UsersRepository().GetByUsernameAndPassword(username, password);
+            LoggedUser = new UsersService().GetByUsernameAndPassword(username, password);
         }
     }
 }

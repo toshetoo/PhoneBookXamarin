@@ -12,10 +12,11 @@ using Android.Widget;
 using PhoneBook.Entities;
 using PhoneBook.Services;
 using PhoneBook.Repositories;
+using PhoneBook.Services.EntityServices;
 
 namespace PhoneBook.Droid.Activities
 {
-    [Activity(Label = "AddContactActivity")]
+    [Activity(Label = "AddContactActivity", Icon = "@drawable/book")]
     public class AddContactActivity : Activity
     {
         Contact c = new Contact();
@@ -38,23 +39,30 @@ namespace PhoneBook.Droid.Activities
                 c.ID = MainActivity.SelectedContact.ID;
             }
 
-            btnCreate.Click += delegate 
-            {
-                MainActivity.SelectedContact = new Contact();
-                MainActivity.SelectedContact.FirstName = tbFirstName.Text;
-                MainActivity.SelectedContact.LastName = tbLastName.Text;
+            btnCreate.Click += BtnCreate_Click;
+        }
 
-                c.FirstName = tbFirstName.Text;
-                c.LastName = tbLastName.Text;
-                c.UserID = AuthenticationService.LoggedUser.ID;
+        private void BtnCreate_Click(object sender, EventArgs e)
+        {
+            EditText tbFirstName = FindViewById<EditText>(Resource.Id.editTextFirstName);
+            EditText tbLastName = FindViewById<EditText>(Resource.Id.editTextLastName);
 
-                ContactsRepository contactsRepo = new ContactsRepository();
-                contactsRepo.Save(c);    
-                
-                Intent intentResult = new Intent(this, typeof(MainActivity));
-                SetResult(Result.Ok, intentResult);
-                Finish();
-            };
+            MainActivity.SelectedContact = new Contact();
+            MainActivity.SelectedContact.ID = c.ID;
+            MainActivity.SelectedContact.FirstName = tbFirstName.Text;
+            MainActivity.SelectedContact.LastName = tbLastName.Text;
+            MainActivity.SelectedContact.Phones = new PhonesService().GetPhonesByContactID(MainActivity.SelectedContact.ID).ToList();
+
+            c.FirstName = tbFirstName.Text;
+            c.LastName = tbLastName.Text;
+            c.UserID = AuthenticationService.LoggedUser.ID;
+
+            ContactsService contactsService = new ContactsService();
+            contactsService.Save(c);
+
+            Intent intentResult = new Intent(this, typeof(MainActivity));
+            SetResult(Result.Ok, intentResult);
+            Finish();
         }
     }
 }

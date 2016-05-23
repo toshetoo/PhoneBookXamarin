@@ -11,7 +11,7 @@ using Xamarin.Forms;
 [assembly: Xamarin.Forms.Dependency(typeof(BaseRepository<>))]
 namespace PhoneBook.Repositories
 {
-    public abstract class BaseRepository<T> where T:BaseEntity, new()
+    public class BaseRepository<T> where T:BaseEntity, new()
     {
         protected SQLiteConnection conn;
 

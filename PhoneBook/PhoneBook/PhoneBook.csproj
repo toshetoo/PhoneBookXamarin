@@ -35,15 +35,22 @@
   <ItemGroup>
     <Compile Include="Entities\BaseEntity.cs" />
     <Compile Include="Entities\Contact.cs" />
+    <Compile Include="Entities\Group.cs" />
     <Compile Include="Entities\Phone.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="ORM\ISQLite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\ContactsRepository.cs" />
+    <Compile Include="Repositories\GroupsRepository.cs" />
     <Compile Include="Repositories\PhonesRepository.cs" />
     <Compile Include="Repositories\UsersRepository.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
+    <Compile Include="Services\EntityServices\BaseService.cs" />
+    <Compile Include="Services\EntityServices\ContactsService.cs" />
+    <Compile Include="Services\EntityServices\GroupsService.cs" />
+    <Compile Include="Services\EntityServices\PhonesService.cs" />
+    <Compile Include="Services\EntityServices\UsersService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

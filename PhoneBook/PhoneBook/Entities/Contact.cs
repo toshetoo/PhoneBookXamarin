@@ -13,6 +13,9 @@ namespace PhoneBook.Entities
         public int UserID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string ImageURI { get; set; }
+        [Ignore]
+        public List<Group> Groups { get; set; }
 
         [Ignore]
         public List<Phone> Phones { get; set; }

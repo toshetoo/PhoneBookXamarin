@@ -5,18 +5,50 @@ using System.Text;
 using System.Threading.Tasks;
 using SQLite;
 using PhoneBook.Entities;
+using PhoneBook.Repositories;
 
 namespace PhoneBook.Droid
 {
     public class DBRepository
     {
-        public void CreateDB()
+        private void CreateDB()
         {
             SQLiteConnection conn = new SQLite_Android().GetConnection();
             conn.CreateTable<Phone>();
             conn.CreateTable<User>();
             conn.CreateTable<Contact>();
+            conn.CreateTable<Group>();
+        }
+
+        public void DropDB()
+        {
             
+            SQLiteConnection conn = new SQLite_Android().GetConnection();
+            string dropUsersQuery = "DROP TABLE User";
+            SQLiteCommand dropUsersCommand = conn.CreateCommand(dropUsersQuery);
+            dropUsersCommand.ExecuteNonQuery();
+
+            string dropContactsQuery = "DROP TABLE Contact";
+            SQLiteCommand dropContactsCommand = conn.CreateCommand(dropContactsQuery);
+            dropContactsCommand.ExecuteNonQuery();
+
+            string dropGroupsTable = "DROP TABLE Group IF EXISTS";
+            SQLiteCommand dropGroupsCommand = conn.CreateCommand(dropGroupsTable);
+            dropGroupsCommand.ExecuteNonQuery();
+        }
+
+        public void InitDB()
+        {
+            CreateDB();
+            UsersRepository usersRepo = new UsersRepository();
+            User u = new User();
+            u.FirstName = "Admin";
+            u.LastName = "Adminov";
+            u.Username = "admin";
+            u.Password = "admin";
+            u.Email = "admin@phonebook.com";
+
+            usersRepo.Save(u);
         }
     }
 }
