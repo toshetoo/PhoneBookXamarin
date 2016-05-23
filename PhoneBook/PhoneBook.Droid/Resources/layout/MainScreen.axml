@@ -35,7 +35,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textViewEmail" />
+        android:id="@+id/textViewEmail"
+        android:layout_marginLeft="26.5dp" />
     <TextView
         android:text="Contacts"
         android:textAppearance="?android:attr/textAppearanceMedium"

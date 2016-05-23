@@ -19,7 +19,7 @@ namespace PhoneBook.Droid.Activities
 	    protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
-            Xamarin.Forms.Forms.Init(this, bundle);
+            Xamarin.Forms.Forms.Init(this, bundle);          
             
             SetContentView (Resource.Layout.Login);            
             

@@ -28,6 +28,7 @@ namespace PhoneBook.Droid.Activities
             SetContentView(Resource.Layout.ViewContact);
 
             TextView lblContactName = FindViewById<TextView>(Resource.Id.textViewContactName);
+            TextView lblContactMail = FindViewById<TextView>(Resource.Id.textViewEmail);
             Button btnDelete = FindViewById<Button>(Resource.Id.btnDelete);
             Button btnEditContact = FindViewById<Button>(Resource.Id.btnEditContact);
             Button btnAddPhone = FindViewById<Button>(Resource.Id.btnAddPhone);
@@ -41,10 +42,12 @@ namespace PhoneBook.Droid.Activities
 
             ListView listViewPhones = FindViewById<ListView>(Resource.Id.listViewPhones);
             listViewPhones.ChoiceMode = ChoiceMode.Multiple;
+            //listViewPhones.
             ArrayAdapter phoneDetails = RefreshAdapter();
             listViewPhones.Adapter = phoneDetails;
 
             lblContactName.Text = MainActivity.SelectedContact.FirstName + " " + MainActivity.SelectedContact.LastName;
+            lblContactMail.Text = "Email: " + MainActivity.SelectedContact.Email;
 
             PhonesService phonesService = new PhonesService();
             MainActivity.SelectedContact.Phones = phonesService.GetPhonesByContactID(MainActivity.SelectedContact.ID).ToList();
@@ -63,7 +66,18 @@ namespace PhoneBook.Droid.Activities
             btnDelete.Click += BtnDelete_Click;
             //launches an intent to select an image
             contactImageView.Click += ContactImageView_Click;
+            //launches an intent to send an email
+            lblContactMail.Click += LblContactMail_Click;
 
+        }
+
+        private void LblContactMail_Click(object sender, EventArgs e)
+        {
+            var email = new Intent(Android.Content.Intent.ActionSend);
+            email.PutExtra(Android.Content.Intent.ExtraEmail, new string[] { MainActivity.SelectedContact.Email });
+            email.PutExtra(Android.Content.Intent.ExtraSubject, "Default subject");
+            email.SetType("message/rfc822");
+            StartActivity(email);            
         }
 
         private void ContactImageView_Click(object sender, EventArgs e)

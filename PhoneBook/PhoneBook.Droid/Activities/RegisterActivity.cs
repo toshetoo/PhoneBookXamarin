@@ -30,6 +30,7 @@ namespace PhoneBook.Droid.Activities
             EditText tbLastName = FindViewById<EditText>(Resource.Id.editTextLastName);
             EditText tbUsername = FindViewById<EditText>(Resource.Id.editTextUsername);
             EditText tbPassword = FindViewById<EditText>(Resource.Id.editTextPassword);
+            EditText tbEmail = FindViewById<EditText>(Resource.Id.editTextEmail);
 
             Button btnRegister = FindViewById<Button>(Resource.Id.btnRegister);
 
@@ -40,6 +41,7 @@ namespace PhoneBook.Droid.Activities
                 tbLastName.Text = AuthenticationService.LoggedUser.LastName;
                 tbUsername.Text = AuthenticationService.LoggedUser.Username;
                 tbPassword.Text = AuthenticationService.LoggedUser.Password;
+                tbEmail.Text = AuthenticationService.LoggedUser.Email;
                 u.ID = AuthenticationService.LoggedUser.ID;
                 btnRegister.Text = "Update";
             }
@@ -56,11 +58,13 @@ namespace PhoneBook.Droid.Activities
             EditText tbLastName = FindViewById<EditText>(Resource.Id.editTextLastName);
             EditText tbUsername = FindViewById<EditText>(Resource.Id.editTextUsername);
             EditText tbPassword = FindViewById<EditText>(Resource.Id.editTextPassword);
+            EditText tbEmail = FindViewById<EditText>(Resource.Id.editTextEmail);
 
             u.FirstName = tbFirstName.Text;
             u.LastName = tbLastName.Text;
             u.Username = tbUsername.Text;
             u.Password = tbPassword.Text;
+            u.Email = tbEmail.Text;
 
             AuthenticationService.LoggedUser = u;
 

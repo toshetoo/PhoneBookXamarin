@@ -17,7 +17,7 @@ namespace PhoneBook.Droid
             conn.CreateTable<Phone>();
             conn.CreateTable<User>();
             conn.CreateTable<Contact>();
-            conn.CreateTable<Group>();
+            conn.CreateTable<UserGroup>();
         }
 
         public void DropDB()
@@ -32,7 +32,11 @@ namespace PhoneBook.Droid
             SQLiteCommand dropContactsCommand = conn.CreateCommand(dropContactsQuery);
             dropContactsCommand.ExecuteNonQuery();
 
-            string dropGroupsTable = "DROP TABLE Group IF EXISTS";
+            string dropPhonesQuery = "DROP TABLE Phone";
+            SQLiteCommand dropPhonesCommand = conn.CreateCommand(dropPhonesQuery);
+            dropPhonesCommand.ExecuteNonQuery();
+
+            string dropGroupsTable = "DROP TABLE UserGroup";
             SQLiteCommand dropGroupsCommand = conn.CreateCommand(dropGroupsTable);
             dropGroupsCommand.ExecuteNonQuery();
         }

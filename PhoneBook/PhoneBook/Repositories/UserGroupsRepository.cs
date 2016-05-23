@@ -5,11 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PhoneBook.Services.EntityServices
+namespace PhoneBook.Repositories
 {
-    public class GroupsService:BaseService<Group>
+    public class UserGroupsRepository: BaseRepository<UserGroup>
     {
-        public GroupsService():base()
+        public UserGroupsRepository():base()
         {
 
         }

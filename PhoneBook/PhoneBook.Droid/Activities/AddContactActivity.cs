@@ -28,12 +28,14 @@ namespace PhoneBook.Droid.Activities
 
             EditText tbFirstName = FindViewById<EditText>(Resource.Id.editTextFirstName);
             EditText tbLastName = FindViewById<EditText>(Resource.Id.editTextLastName);
+            EditText tbEmail = FindViewById<EditText>(Resource.Id.editTextEmail);
             Button btnCreate = FindViewById<Button>(Resource.Id.btnCreate);
 
             if (MainActivity.SelectedContact != null)
             {
                 tbFirstName.Text = MainActivity.SelectedContact.FirstName;
                 tbLastName.Text = MainActivity.SelectedContact.LastName;
+                tbEmail.Text = MainActivity.SelectedContact.Email;
                 btnCreate.Text = "Update";
 
                 c.ID = MainActivity.SelectedContact.ID;
@@ -46,16 +48,16 @@ namespace PhoneBook.Droid.Activities
         {
             EditText tbFirstName = FindViewById<EditText>(Resource.Id.editTextFirstName);
             EditText tbLastName = FindViewById<EditText>(Resource.Id.editTextLastName);
+            EditText tbEmail = FindViewById<EditText>(Resource.Id.editTextEmail);
 
-            MainActivity.SelectedContact = new Contact();
-            MainActivity.SelectedContact.ID = c.ID;
-            MainActivity.SelectedContact.FirstName = tbFirstName.Text;
-            MainActivity.SelectedContact.LastName = tbLastName.Text;
-            MainActivity.SelectedContact.Phones = new PhonesService().GetPhonesByContactID(MainActivity.SelectedContact.ID).ToList();
 
             c.FirstName = tbFirstName.Text;
             c.LastName = tbLastName.Text;
+            c.Email = tbEmail.Text;
             c.UserID = AuthenticationService.LoggedUser.ID;
+
+            MainActivity.SelectedContact = c;
+            MainActivity.SelectedContact.Phones = new PhonesService().GetPhonesByContactID(MainActivity.SelectedContact.ID).ToList();
 
             ContactsService contactsService = new ContactsService();
             contactsService.Save(c);

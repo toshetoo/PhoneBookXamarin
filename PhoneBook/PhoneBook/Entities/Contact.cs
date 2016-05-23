@@ -14,8 +14,10 @@ namespace PhoneBook.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string ImageURI { get; set; }
+        [Unique]
+        public string Email { get; set; }
         [Ignore]
-        public List<Group> Groups { get; set; }
+        public List<UserGroup> Groups { get; set; }
 
         [Ignore]
         public List<Phone> Phones { get; set; }

@@ -44,6 +44,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editTextPassword" />
+    <TextView
+        android:text="Email"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView1" />
+    <EditText
+        android:inputType="textEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextEmail" />
     <Button
         android:text="Register"
         android:layout_width="match_parent"

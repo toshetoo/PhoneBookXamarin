@@ -36,6 +36,13 @@
                 android:layout_marginTop="14.5dp" />
         </LinearLayout>
         <TextView
+            android:text="mail"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewEmail"
+            android:layout_marginLeft="20dp" />
+        <TextView
             android:text="Phones"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:layout_width="131.0dp"

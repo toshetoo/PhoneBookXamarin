@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Entities
 {
-    public class Group : BaseEntity
+    public class UserGroup : BaseEntity
     {
         [Unique]
         public string GroupName { get; set; }
