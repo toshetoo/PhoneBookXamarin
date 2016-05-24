@@ -13,14 +13,14 @@ using PhoneBook.Services;
 
 namespace PhoneBook.Droid.Activities
 {
-	[Activity (Label = "PhoneBook", MainLauncher = true, Icon = "@drawable/book")]
+	[Activity (Label = "PhoneBook", Icon = "@drawable/book", MainLauncher = true)]
 	public class LoginActivity : Activity
 	{
 	    protected override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
-            Xamarin.Forms.Forms.Init(this, bundle);          
-            
+            Xamarin.Forms.Forms.Init(this, bundle);
+             
             SetContentView (Resource.Layout.Login);            
             
             Button btnLogin = FindViewById<Button>(Resource.Id.btnLogin);

@@ -17,16 +17,25 @@ namespace PhoneBook.Droid
             conn.CreateTable<Phone>();
             conn.CreateTable<User>();
             conn.CreateTable<Contact>();
-            conn.CreateTable<UserGroup>();
+            conn.CreateTable<Group>();
+            conn.CreateTable<ContactGroup>();
+
+            List<SQLiteConnection.ColumnInfo> c = new List<SQLiteConnection.ColumnInfo>();
+            c = conn.GetTableInfo("Phone");
+            c = conn.GetTableInfo("User");
+            c = conn.GetTableInfo("Contact");
+            c = conn.GetTableInfo("Group");
+            c = conn.GetTableInfo("ContactGroup");
+            //
         }
 
         public void DropDB()
         {
             
             SQLiteConnection conn = new SQLite_Android().GetConnection();
-            string dropUsersQuery = "DROP TABLE User";
-            SQLiteCommand dropUsersCommand = conn.CreateCommand(dropUsersQuery);
-            dropUsersCommand.ExecuteNonQuery();
+            //string dropUsersQuery = "DROP TABLE User";
+            //SQLiteCommand dropUsersCommand = conn.CreateCommand(dropUsersQuery);
+            //dropUsersCommand.ExecuteNonQuery();
 
             string dropContactsQuery = "DROP TABLE Contact";
             SQLiteCommand dropContactsCommand = conn.CreateCommand(dropContactsQuery);
@@ -36,7 +45,7 @@ namespace PhoneBook.Droid
             SQLiteCommand dropPhonesCommand = conn.CreateCommand(dropPhonesQuery);
             dropPhonesCommand.ExecuteNonQuery();
 
-            string dropGroupsTable = "DROP TABLE UserGroup";
+            string dropGroupsTable = "DROP TABLE ContactGroup";
             SQLiteCommand dropGroupsCommand = conn.CreateCommand(dropGroupsTable);
             dropGroupsCommand.ExecuteNonQuery();
         }
@@ -44,15 +53,15 @@ namespace PhoneBook.Droid
         public void InitDB()
         {
             CreateDB();
-            UsersRepository usersRepo = new UsersRepository();
-            User u = new User();
-            u.FirstName = "Admin";
-            u.LastName = "Adminov";
-            u.Username = "admin";
-            u.Password = "admin";
-            u.Email = "admin@phonebook.com";
+        //    UsersRepository usersRepo = new UsersRepository();
+        //    User u = new User();
+        //    u.FirstName = "Admin";
+        //    u.LastName = "Adminov";
+        //    u.Username = "admin";
+        //    u.Password = "admin";
+        //    u.Email = "admin@phonebook.com";
 
-            usersRepo.Save(u);
+        //    usersRepo.Save(u);
         }
     }
 }

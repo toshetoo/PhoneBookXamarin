@@ -15,7 +15,7 @@ using PhoneBook.Services.EntityServices;
 
 namespace PhoneBook.Droid.Activities
 {
-    [Activity(Label = "AddPhoneActivity", Icon = "@drawable/book")]
+    [Activity(Label = "PhoneBook - ADD PHONE", Icon = "@drawable/book")]
     public class AddPhoneActivity : Activity
     {
         Phone p = new Phone();

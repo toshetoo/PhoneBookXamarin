@@ -1,4 +1,5 @@
 ﻿using SQLite;
+using SQLiteNetExtensions.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +17,9 @@ namespace PhoneBook.Entities
         public string ImageURI { get; set; }
         [Unique]
         public string Email { get; set; }
-        [Ignore]
-        public List<UserGroup> Groups { get; set; }
+
+        [Ignore,ManyToMany(typeof(ContactGroup))]
+        public List<Group> Groups { get; set; }
 
         [Ignore]
         public List<Phone> Phones { get; set; }

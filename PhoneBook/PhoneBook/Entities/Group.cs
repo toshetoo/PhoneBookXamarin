@@ -1,4 +1,5 @@
 ﻿using SQLite;
+using SQLiteNetExtensions.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Entities
 {
-    public class UserGroup : BaseEntity
+    public class Group:BaseEntity
     {
         [Unique]
         public string GroupName { get; set; }
         public string ImageURI { get; set; }
-        [Ignore]
+
+        [Ignore,ManyToMany(typeof(ContactGroup))]
         public List<Contact> Contacts { get; set; }
     }
 }

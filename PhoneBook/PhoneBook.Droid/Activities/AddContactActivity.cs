@@ -16,7 +16,7 @@ using PhoneBook.Services.EntityServices;
 
 namespace PhoneBook.Droid.Activities
 {
-    [Activity(Label = "AddContactActivity", Icon = "@drawable/book")]
+    [Activity(Label = "PhoneBook - ADD CONTACT", Icon = "@drawable/book")]
     public class AddContactActivity : Activity
     {
         Contact c = new Contact();

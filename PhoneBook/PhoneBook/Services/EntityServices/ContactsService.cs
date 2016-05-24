@@ -18,5 +18,10 @@ namespace PhoneBook.Services.EntityServices
         {
             return repo.GetAll().Where(c => c.UserID == id);
         }
+
+        public IEnumerable<Contact> GetAllByGroupID(int id)
+        {
+            return repo.GetAll().Where(c => c.Groups.Any(g => g.ID == id)).ToList();
+        }
     }
 }

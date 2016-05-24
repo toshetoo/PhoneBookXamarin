@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TwoLineListItem
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/twoLineListItem1" />
+    <TextView
+        android:text="Groups"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView1"
+        android:layout_marginLeft="152.0dp" />
+    <ListView
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="3.0dp"
+        android:id="@+id/android:list" />
+    <ListView
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="414.5dp"
+        android:id="@+id/GroupsListView" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="48.0dp"
+        android:id="@+id/linearLayout1">
+        <Button
+            android:text="Create group"
+            android:layout_width="177.5dp"
+            android:layout_height="match_parent"
+            android:id="@+id/btnAddGroup"
+            android:layout_marginRight="10.5dp"
+            android:layout_marginLeft="7.0dp" />
+        <Button
+            android:text="Delete"
+            android:layout_width="175.0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/button2"
+            android:layout_marginLeft="6.5dp"
+            android:enabled="false" />
+    </LinearLayout>
+</LinearLayout>

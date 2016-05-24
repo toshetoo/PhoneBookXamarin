@@ -12,6 +12,7 @@ using Android.Widget;
 using PhoneBook.Repositories;
 using PhoneBook.Entities;
 using PhoneBook.Services.EntityServices;
+using PhoneBook.Droid.CustomListView;
 
 namespace PhoneBook.Droid.Activities
 {
@@ -19,9 +20,9 @@ namespace PhoneBook.Droid.Activities
     public class ViewContactActivity : ListActivity
     {
         
-        List<Phone> selectedPhones = new List<Phone>();
-        
+        List<Phone> selectedPhones = new List<Phone>();        
         public static Phone SelectedPhone;
+        int selectedMenuPosition;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -42,7 +43,7 @@ namespace PhoneBook.Droid.Activities
 
             ListView listViewPhones = FindViewById<ListView>(Resource.Id.listViewPhones);
             listViewPhones.ChoiceMode = ChoiceMode.Multiple;
-            //listViewPhones.
+            
             ArrayAdapter phoneDetails = RefreshAdapter();
             listViewPhones.Adapter = phoneDetails;
 
@@ -131,13 +132,9 @@ namespace PhoneBook.Droid.Activities
             StartActivityForResult(editContactIntent, 1);
         }
 
-        private ArrayAdapter RefreshAdapter()
+        private PhonesViewAdapter RefreshAdapter()
         {
-            ArrayAdapter phoneDetails = new ArrayAdapter(this, Resource.Layout.TextViewItem);
-            for (int i = 0; i < MainActivity.SelectedContact.Phones.Count; i++)
-            {
-                phoneDetails.Add(MainActivity.SelectedContact.Phones[i].Type + " - " + MainActivity.SelectedContact.Phones[i].Number);
-            }
+            PhonesViewAdapter phoneDetails = new PhonesViewAdapter(this, Resource.Layout.ViewModel,MainActivity.SelectedContact.Phones);            
             return phoneDetails;
         }
 
@@ -157,10 +154,40 @@ namespace PhoneBook.Droid.Activities
 
         private void ListViewPhones_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)
         {
-            
-            SelectedPhone = MainActivity.SelectedContact.Phones[e.Position];
-            var editPhoneIntent = new Intent(this, typeof(AddPhoneActivity));
-            StartActivityForResult(editPhoneIntent,2);
+            selectedMenuPosition = e.Position;
+            RegisterForContextMenu(e.View);
+            PopupMenu menu = new PopupMenu(this, e.View);
+            menu.Inflate(Resource.Menu.PhonesMenuOptions);
+            menu.Show();
+
+            menu.MenuItemClick += Menu_MenuItemClick;            
+        }
+
+        private void Menu_MenuItemClick(object sender, PopupMenu.MenuItemClickEventArgs e)
+        {
+            switch (e.Item.TitleFormatted.ToString())
+            {
+                case "Call":
+                    var callDialog = new AlertDialog.Builder(this);
+                    callDialog.SetMessage("Call " + MainActivity.SelectedContact.Phones[selectedMenuPosition].Number + "?");
+                    callDialog.SetNeutralButton("Call", delegate {
+                        // Create intent to dial phone
+                        var callIntent = new Intent(Intent.ActionCall);
+                        callIntent.SetData(Android.Net.Uri.Parse("tel:" + MainActivity.SelectedContact.Phones[selectedMenuPosition].Number));
+                        StartActivity(callIntent);
+                    });
+                    callDialog.SetNegativeButton("Cancel", delegate { });
+
+                    // Show the alert dialog to the user and wait for response.
+                    callDialog.Show();
+
+                    break;
+                case "Edit":
+                    SelectedPhone = MainActivity.SelectedContact.Phones[selectedMenuPosition];
+                    var editPhoneIntent = new Intent(this, typeof(AddPhoneActivity));
+                    StartActivityForResult(editPhoneIntent, 2);
+                    break;               
+            }
         }
 
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
@@ -174,6 +201,7 @@ namespace PhoneBook.Droid.Activities
                 okMessage.SetMessage("Done!");
                 okMessage.SetPositiveButton("OK", delegate { });
                 okMessage.Show();
+                SelectedPhone = null;
                 Recreate();
             }
 
@@ -189,6 +217,7 @@ namespace PhoneBook.Droid.Activities
                 listViewPhones.ChoiceMode = ChoiceMode.Multiple;
                 ArrayAdapter phoneDetails = RefreshAdapter();
                 listViewPhones.Adapter = phoneDetails;
+                SelectedPhone = null;
 
                 okMessage.Show();
             }
@@ -199,6 +228,7 @@ namespace PhoneBook.Droid.Activities
                 var okMessage = new AlertDialog.Builder(this);
                 okMessage.SetMessage("Phone updated!");
                 okMessage.SetPositiveButton("OK", delegate { });
+                SelectedPhone = null;
                 Recreate();
                 okMessage.Show();
                 

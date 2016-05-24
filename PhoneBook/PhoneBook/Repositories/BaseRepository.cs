@@ -1,6 +1,7 @@
 ﻿using PhoneBook.Entities;
 using PhoneBook.Repositories;
 using SQLite;
+using SQLiteNetExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace PhoneBook.Repositories
 
         private void Insert(T item)
         {
-            conn.Insert(item);
+            conn.Insert(item);            
         }
 
         private void Update(T item)

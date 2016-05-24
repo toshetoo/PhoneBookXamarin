@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace PhoneBook.Repositories
 {
-    public class UserGroupsRepository: BaseRepository<UserGroup>
+    public class GroupsRepository: BaseRepository<Group>
     {
-        public UserGroupsRepository():base()
+        public GroupsRepository():base()
         {
 
         }

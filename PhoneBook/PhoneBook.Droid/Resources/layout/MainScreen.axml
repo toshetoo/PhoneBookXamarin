@@ -39,7 +39,7 @@
         android:layout_marginLeft="26.5dp" />
     <TextView
         android:text="Contacts"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="135.0dp"
         android:layout_height="wrap_content"
         android:id="@+id/textView1"
@@ -48,7 +48,7 @@
         android:minWidth="25px"
         android:minHeight="25px"
         android:layout_width="match_parent"
-        android:layout_height="387.5dp"
+        android:layout_height="371.5dp"
         android:id="@+id/listViewContacts" />
     <LinearLayout
         android:orientation="horizontal"

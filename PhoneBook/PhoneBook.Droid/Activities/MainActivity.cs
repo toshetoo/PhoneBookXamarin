@@ -14,6 +14,7 @@ using PhoneBook.Entities;
 using PhoneBook.Services;
 using Android.Graphics;
 using PhoneBook.Services.EntityServices;
+using PhoneBook.Droid.CustomListView;
 
 namespace PhoneBook.Droid.Activities
 {
@@ -21,15 +22,19 @@ namespace PhoneBook.Droid.Activities
     public class MainActivity : ListActivity
     {
         public static Contact SelectedContact;
+        int selectedMenuPosition;
         List<Contact> selectedContacts = new List<Contact>();
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            SetContentView(Resource.Layout.MainScreen);
+            SetContentView(Resource.Layout.MainScreen);            
+
+            ContactsService contactsService = new ContactsService();
+            AuthenticationService.LoggedUser.Contacts = contactsService.GetAllByUserID(AuthenticationService.LoggedUser.ID).ToList();
+            //AuthenticationService.LoggedUser.Contacts = AuthenticationService.LoggedUser.Contacts.OrderBy(c=>c.FirstName).ToList();
 
             Button btnDelete = FindViewById<Button>(Resource.Id.btnDelete);
-
             Button btnAddContact = FindViewById<Button>(Resource.Id.btnAddContact);
             Button btnEditUser = FindViewById<Button>(Resource.Id.btnEditUser);
             TextView userLabel = FindViewById<TextView>(Resource.Id.textViewUser);
@@ -49,13 +54,8 @@ namespace PhoneBook.Droid.Activities
 
             ListView listViewContacts = FindViewById<ListView>(Resource.Id.listViewContacts);
             listViewContacts.ChoiceMode = ChoiceMode.Multiple;
-
-
-            ContactsService contactsService = new ContactsService();
-            AuthenticationService.LoggedUser.Contacts = contactsService.GetAllByUserID(AuthenticationService.LoggedUser.ID).ToList();
-
-            listViewContacts.Adapter = RefreshAdapter();
-
+            listViewContacts.Adapter = RefreshAdapter();            
+            
             //trigers the ListViewContacts_ItemLongClick event
             listViewContacts.ItemLongClick += ListViewContacts_ItemLongClick;
 
@@ -129,23 +129,59 @@ namespace PhoneBook.Droid.Activities
         {
             Button btnDelete = FindViewById<Button>(Resource.Id.btnDelete);
             if (selectedContacts.Contains(AuthenticationService.LoggedUser.Contacts[e.Position]))
+            {
                 selectedContacts.Remove(AuthenticationService.LoggedUser.Contacts[e.Position]);
+                e.View.SetBackgroundColor(default(Color));              
+            }
             else
+            {
                 selectedContacts.Add(AuthenticationService.LoggedUser.Contacts[e.Position]);
+                e.View.SetBackgroundColor(Color.Rgb(169, 169, 169));
+            }
 
             if (selectedContacts.Count > 0)
                 btnDelete.Enabled = true;
             else
                 btnDelete.Enabled = false;
-
         }
 
         private void ListViewContacts_ItemLongClick(object sender, AdapterView.ItemLongClickEventArgs e)
         {
-            SelectedContact = AuthenticationService.LoggedUser.Contacts[e.Position];
-            SelectedContact.Phones = new PhonesService().GetPhonesByContactID(SelectedContact.ID).ToList();
-            var viewContact = new Intent(this, typeof(ViewContactActivity));
-            StartActivity(viewContact);
+            
+            selectedMenuPosition = e.Position;
+            RegisterForContextMenu(e.View);
+            PopupMenu menu = new PopupMenu(this, e.View);
+            menu.Inflate(Resource.Menu.ContactsMenuOptions);
+            menu.Show();
+
+            menu.MenuItemClick += Menu_MenuItemClick;
+            
+        }
+
+        private void Menu_MenuItemClick(object sender, PopupMenu.MenuItemClickEventArgs e)
+        {
+            //Android.Widget.Toast.MakeText(this, e.Item.TitleFormatted, ToastLength.Short).Show();
+            switch (e.Item.TitleFormatted.ToString())
+            {
+                case "View":
+                    SelectedContact = AuthenticationService.LoggedUser.Contacts[selectedMenuPosition];
+                    SelectedContact.Phones = new PhonesService().GetPhonesByContactID(SelectedContact.ID).ToList();
+                    var viewContact = new Intent(this, typeof(ViewContactActivity));
+                    StartActivity(viewContact);
+                    break;
+                case "Edit":
+                    SelectedContact = AuthenticationService.LoggedUser.Contacts[selectedMenuPosition];
+                    var editContactIntent = new Intent(this, typeof(AddContactActivity));
+                    StartActivityForResult(editContactIntent, 3);                    
+                    break;
+                case "Manage groups":
+                    SelectedContact = AuthenticationService.LoggedUser.Contacts[selectedMenuPosition];
+                    var manageGroupsIntent = new Intent(this, typeof(ManageContactGroupsActivity));
+                    StartActivity(manageGroupsIntent);
+                    break;
+                default:
+                    break;
+            }
         }
 
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
@@ -162,7 +198,7 @@ namespace PhoneBook.Droid.Activities
                 SelectedContact = null;
                 this.Recreate();
             }
-
+            //returns result from the btnEditUser
             if (resultCode == Result.Ok && requestCode == 2)
             {
                 var okMessage = new AlertDialog.Builder(this);
@@ -171,7 +207,7 @@ namespace PhoneBook.Droid.Activities
                 okMessage.Show();
                 this.Recreate();
             }
-
+            //returns result from image selection
             if (resultCode == Result.Ok && requestCode == 1)
             {
                 var imageView =
@@ -181,22 +217,35 @@ namespace PhoneBook.Droid.Activities
                 UsersService usersService = new UsersService();
                 usersService.Save(AuthenticationService.LoggedUser);
             }
+
+            //Result from editContact button
+            if (resultCode == Result.Ok && requestCode == 3)
+            {
+                var okMessage = new AlertDialog.Builder(this);
+                okMessage.SetMessage("Done!");
+                okMessage.SetPositiveButton("OK", delegate { });
+                okMessage.Show();
+                Recreate();
+            }
         }
 
         protected override void OnResume()
         {
             base.OnResume();
             SelectedContact = null;
+            //refreshes the listed contacts
+            ListView listViewContacts = FindViewById<ListView>(Resource.Id.listViewContacts);
+            listViewContacts.ChoiceMode = ChoiceMode.Multiple;
+            listViewContacts.Adapter = RefreshAdapter();
         }
 
-        ArrayAdapter RefreshAdapter()
+        ContactsViewAdapter RefreshAdapter()
         {
-            ArrayAdapter contactNames = new ArrayAdapter(this, Resource.Layout.TextViewItem);
+            AuthenticationService.LoggedUser.Contacts.Clear();
+            ContactsService contactsService = new ContactsService();
+            AuthenticationService.LoggedUser.Contacts = contactsService.GetAllByUserID(AuthenticationService.LoggedUser.ID).ToList();
 
-            for (int i = 0; i < AuthenticationService.LoggedUser.Contacts.Count; i++)
-            {
-                contactNames.Add(AuthenticationService.LoggedUser.Contacts[i].FirstName + " " + AuthenticationService.LoggedUser.Contacts[i].LastName);
-            }
+            ContactsViewAdapter contactNames = new ContactsViewAdapter(this, Resource.Layout.ViewModel, AuthenticationService.LoggedUser.Contacts);
             return contactNames;
         }
     }
